@@ -117,8 +117,11 @@ st.markdown("""
 ### Ask the questions and start remembering your experiences
 """)
 
-youtube_video = st.text_area("Youtube video: ", placeholder="https://youtu.be/...")
+youtube_video = st.text_input("Youtube video: ", placeholder="https://youtu.be/...")
 large_text = st.text_area("Ask your question: ", placeholder="What ...?")
+
+if youtube_video:
+    st.video(youtube_video)
 
 if st.button("Get an answer"):
     transcription = transcript_video(youtube_video)
