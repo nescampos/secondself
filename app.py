@@ -82,7 +82,8 @@ def get_answer(question, transcription):
     )
     qa = LLMChain(llm=llm, prompt=prompt,verbose=True, memory=memory)
 
-    qa.predict(human_input = question)
+    result = qa.predict(human_input = question)
+    return result
 
 
 html_temp = """
