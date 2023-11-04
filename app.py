@@ -40,46 +40,6 @@ secondself_template = """You are a chatbot that helps with answers for questions
 
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
-
-html_temp = """
-                <div style="background-color:{};padding:1px">
-                
-                </div>
-                """
-
-with st.sidebar:
-    st.markdown("""
-    # About 
-    SecondSelf is a helper tool built ...
-    """)
-    st.markdown(html_temp.format("rgba(55, 53, 47, 0.16)"),unsafe_allow_html=True)
-    st.markdown("""
-    # How does it work
-    Ask...
-    """)
-    st.markdown(html_temp.format("rgba(55, 53, 47, 0.16)"),unsafe_allow_html=True)
-    st.markdown("""
-    Made by..
-    """,
-    unsafe_allow_html=True,
-    )
-
-st.markdown("""
-# SecondSelf
-""")
-
-st.markdown("""
-### Ask the questions and start remembering your experiences
-""")
-
-youtube_video = st.text_area("Youtube video: ", placeholder="https://youtu.be/...")
-large_text = st.text_area("Ask your question: ", placeholder="What ...?")
-
-if st.button("Get an answer"):
-    transcription = transcript_video(youtube_video)
-    st.write("Answer: ", get_answer(large_text, transcription))
-
-
 def transcript_video(youtube_url):
     youtube_link = youtube_url
     youtube_video = YouTube(youtube_link)
@@ -123,3 +83,44 @@ def get_answer(question, transcription):
     qa = LLMChain(llm=llm, prompt=prompt,verbose=True, memory=memory)
 
     qa.predict(human_input = question)
+
+
+html_temp = """
+                <div style="background-color:{};padding:1px">
+                
+                </div>
+                """
+
+with st.sidebar:
+    st.markdown("""
+    # About 
+    SecondSelf is a helper tool built ...
+    """)
+    st.markdown(html_temp.format("rgba(55, 53, 47, 0.16)"),unsafe_allow_html=True)
+    st.markdown("""
+    # How does it work
+    Ask...
+    """)
+    st.markdown(html_temp.format("rgba(55, 53, 47, 0.16)"),unsafe_allow_html=True)
+    st.markdown("""
+    Made by..
+    """,
+    unsafe_allow_html=True,
+    )
+
+st.markdown("""
+# SecondSelf
+""")
+
+st.markdown("""
+### Ask the questions and start remembering your experiences
+""")
+
+youtube_video = st.text_area("Youtube video: ", placeholder="https://youtu.be/...")
+large_text = st.text_area("Ask your question: ", placeholder="What ...?")
+
+if st.button("Get an answer"):
+    transcription = transcript_video(youtube_video)
+    st.write("Answer: ", get_answer(large_text, transcription))
+
+
