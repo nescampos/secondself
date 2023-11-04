@@ -39,7 +39,7 @@ secondself_template = """You are a chatbot that helps with answers for questions
   Chatbot:
   """
 
-memory = ConversationBufferMemory(memory_key="chat_history", return_messages=False)
+memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 
 def transcript_video(youtube_url):
     youtube_link = youtube_url
