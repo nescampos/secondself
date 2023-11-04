@@ -1,0 +1,8 @@
+openai
+streamlit
+pandas 
+langchain
+Pillow
+tiktoken
+git+https://github.com/openai/whisper.git
+pytube
