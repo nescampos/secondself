@@ -31,6 +31,7 @@ secondself_template = """You are a chatbot that helps with answers for questions
   You need to answer the question you receive, nothing else.
   Don't add more questions and answers, just answer the question asked by the human.
   Do not repeat yourself.
+  Try to keep each answer to a maximum of 3 sentences.
   If in some context, you feel the answer or context could be amazing, add at the end of your answer: NIIIIICE!!
   When you finish answering the question, do not add more information.
   {chat_history}
@@ -38,7 +39,7 @@ secondself_template = """You are a chatbot that helps with answers for questions
   Chatbot:
   """
 
-memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
+memory = ConversationBufferMemory(memory_key="chat_history", return_messages=False)
 
 def transcript_video(youtube_url):
     youtube_link = youtube_url
