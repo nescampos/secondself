@@ -147,7 +147,6 @@ if st.button("Get an answer"):
     audio_file = open('./output.mp3', 'rb')
     audio_bytes = audio_file.read()
 
-    st.text(f"Summary:\n\n{summary}\n\n")
     st.audio(audio_bytes, format='audio/mpeg')
 
 
