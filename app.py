@@ -151,6 +151,6 @@ if st.button("Get an answer"):
 
     audio_nice_file = open('./nice.ogg', 'rb')
     audio_nice_bytes = audio_nice_file.read()
-    st.audio(audio_bytes, format='audio/ogg')
+    st.audio(audio_nice_bytes, format='audio/ogg')
 
 
