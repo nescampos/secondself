@@ -1,4 +1,5 @@
 import os
+import json
 import pytube
 from pytube import YouTube
 # Import Azure OpenAI
@@ -51,8 +52,10 @@ def transcript_video(youtube_url):
     youtube_link = youtube_url
     video_id = pytube.extract.video_id(youtube_link)
     if os.path.exists(video_id+".csv"):
-        existing_transcription = pd.read_csv('./'+video_id+'.csv', sep=";")
-        return existing_transcription
+        with open('./'+video_id+'.txt', "r") as fp:
+            # Load the dictionary from the file
+            existing_transcription = json.load(fp)
+            return existing_transcription
     youtube_video = YouTube(youtube_link)
     streams = youtube_video.streams.filter(only_audio=True)
     stream = streams.first()
@@ -60,7 +63,8 @@ def transcript_video(youtube_url):
     audio_file = open(mp4_video, 'rb')
     output = model.transcribe("youtube_video.mp4")
     transcription = { "title": youtube_video.title.strip(), "transcription": output['text'] }
-    pd.DataFrame(transcription).to_csv('./'+video_id+'.csv', sep=";")
+    with open('./'+video_id+'.txt', "w") as fp:
+        json.dump(transcription, fp)
     return transcription
 
 def get_answer(question, transcription):
