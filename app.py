@@ -70,7 +70,7 @@ def get_answer(question, transcription):
                           Only answer one question at a time, no more.
                           If something is not clear, I can infer it, but I must make it clear to you.
                           My favorite word is "NICE".
-                          If in some context, I feel the answer or context could be amazing, I will add at the end of my answer: NIIIIICE!!
+                          I will add at the end of my answer: NIIIIICE!!
                           When I finish answering the question, I do not add more information. """
             ),  # The persistent system prompt
             MessagesPlaceholder(
@@ -90,7 +90,7 @@ def get_answer(question, transcription):
     )
     qa = LLMChain(llm=llm, prompt=prompt,verbose=True, memory=memory)
 
-    result = qa.predict(human_input = question)
+    result = qa.run(question)
     return result
 
 
