@@ -20,6 +20,7 @@ from langchain.prompts import (
 )
 from elevenlabs import set_api_key, generate, save
 
+st.set_page_config(page_title="Second Self")
 
 os.environ["OPENAI_API_TYPE"] = "azure"
 os.environ["OPENAI_API_BASE"] = st.secrets["openaiUrl"]
@@ -120,7 +121,7 @@ with st.sidebar:
 
 # Configure the UI
 image = Image.open('logo.PNG')
-st.set_page_config(page_title="Second Self")
+
 
 st.image(image, caption='Second Self')
 
