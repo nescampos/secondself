@@ -149,4 +149,8 @@ if st.button("Get an answer"):
 
     st.audio(audio_bytes, format='audio/mpeg')
 
+    audio_nice_file = open('./nice.ogg', 'rb')
+    audio_nice_bytes = audio_nice_file.read()
+    st.audio(audio_bytes, format='audio/ogg')
+
 
