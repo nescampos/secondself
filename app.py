@@ -117,9 +117,11 @@ with st.sidebar:
     """)
     st.markdown(html_temp.format("rgba(55, 53, 47, 0.16)"),unsafe_allow_html=True)
 
-st.markdown("""
-# 2nd Self
-""")
+# Configure the UI
+image = Image.open('logo.PNG')
+st.set_page_config(page_title="Second Self")
+
+st.image(image, caption='Second Self')
 
 st.markdown("""
 ### Elevate every decision with the power of undiluted memory. Your life, our lens, no moment missed.
