@@ -6,3 +6,4 @@ Pillow
 tiktoken
 git+https://github.com/openai/whisper.git
 pytube
+elevenlabs
