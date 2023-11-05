@@ -17,12 +17,16 @@ from langchain.prompts import (
     HumanMessagePromptTemplate,
     MessagesPlaceholder,
 )
+from elevenlabs import set_api_key, generate, save
 
 
 os.environ["OPENAI_API_TYPE"] = "azure"
 os.environ["OPENAI_API_BASE"] = st.secrets["openaiUrl"]
 os.environ["OPENAI_API_KEY"] = st.secrets["openaiKey"]
 os.environ["OPENAI_API_VERSION"] = "2023-05-15"
+
+elevenlabs_api_key = st.secrets["elevenlabs_api_key"]
+set_api_key(elevenlabs_api_key)
 
 model = whisper.load_model('base')
 
@@ -57,18 +61,17 @@ def get_answer(question, transcription):
     prompt = ChatPromptTemplate.from_messages(
         [
             SystemMessage(
-                content="""You are a bot having a conversation with another human about this context: """+transcription["title"]+""".
-                          You have all the information here: """+transcription["transcription"]+"""
-                          You need to answer the question you receive, nothing else.
-                          Give short and precise answers.
-                          Don't add more questions and answers, just answer the question asked by the human.
-                          Do not repeat yourself.
+                content="""I am a bot. My name is Fran, and I can have a conversation with another human about this context: """+transcription["title"]+""".
+                          I have all the information here: """+transcription["transcription"]+"""
+                          I am going to answer the question I receive, nothing else.
+                          I will give you short and precise answers.
+                          I don't add more questions and answers, just answer the question asked by the human.
+                          I do not repeat myself.
                           Only answer one question at a time, no more.
-                          If something is not clear, you can infer it, but you must make it clear to your interlocutor.
-                          Your name is Fran, and your favorite word is "NICE".
-                          If in some context, you feel the answer or context could be amazing, add at the end of your answer: NIIIIICE!!
-                          Replace Bot with Person.
-                          When you finish answering the question, do not add more information. """
+                          If something is not clear, I can infer it, but I must make it clear to you.
+                          My favorite word is "NICE".
+                          If in some context, I feel the answer or context could be amazing, I will add at the end of my answer: NIIIIICE!!
+                          When I finish answering the question, I do not add more information. """
             ),  # The persistent system prompt
             MessagesPlaceholder(
                 variable_name="chat_history"
@@ -131,6 +134,20 @@ large_text = st.text_area("Ask your question: ", placeholder="What ...?")
 
 if st.button("Get an answer"):
     transcription = transcript_video(youtube_video)
-    st.write("Answer: ", get_answer(large_text, transcription))
+    answer = get_answer(large_text, transcription)
+    st.write("Answer: ", answer)
+
+    audio = generate(
+        text=answer,
+        voice="Bella",
+        model='eleven_monolingual_v1'
+    )
+
+    save(audio, "./output.mp3")
+    audio_file = open('./output.mp3', 'rb')
+    audio_bytes = audio_file.read()
+
+    st.text(f"Summary:\n\n{summary}\n\n")
+    st.audio(audio_bytes, format='audio/mpeg')
 
 
