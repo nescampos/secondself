@@ -8,6 +8,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 from typing import List
+from PIL import Image
 from langchain.chains import LLMChain
 from langchain import PromptTemplate
 from langchain.memory import ConversationBufferMemory
