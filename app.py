@@ -139,7 +139,7 @@ if st.button("Get an answer"):
 
     audio = generate(
         text=answer,
-        voice="UMj9sLk3N0ymwE1QWa2C",
+        voice="Bella",
         model='eleven_monolingual_v1'
     )
 
