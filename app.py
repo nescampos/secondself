@@ -47,14 +47,18 @@ memory = ConversationBufferMemory(memory_key="chat_history", return_messages=Tru
 
 def transcript_video(youtube_url):
     youtube_link = youtube_url
-    youtube_video = YouTube(youtube_link)
     video_id = pytube.extract.video_id(youtube_link)
+    if os.path.exists(video_id+".csv"):
+        existing_transcription = pd.read_csv('./'+video_id+'.csv', sep=";")
+        return existing_transcription
+    youtube_video = YouTube(youtube_link)
     streams = youtube_video.streams.filter(only_audio=True)
     stream = streams.first()
     mp4_video = stream.download(filename='youtube_video.mp4')
     audio_file = open(mp4_video, 'rb')
     output = model.transcribe("youtube_video.mp4")
     transcription = { "title": youtube_video.title.strip(), "transcription": output['text'] }
+    pd.DataFrame(transcription).to_csv('./'+video_id+'.csv', sep=";")
     return transcription
 
 def get_answer(question, transcription):
@@ -103,29 +107,25 @@ html_temp = """
 with st.sidebar:
     st.markdown("""
     # About 
-    SecondSelf is a helper tool built ...
+    SecondSelf can extend your memory beyond the limits.
     """)
     st.markdown(html_temp.format("rgba(55, 53, 47, 0.16)"),unsafe_allow_html=True)
     st.markdown("""
     # How does it work
-    Ask...
+    - Enter the video of your memories that you want to consult.
+    - Ask the question you want and interact with yourself.
     """)
     st.markdown(html_temp.format("rgba(55, 53, 47, 0.16)"),unsafe_allow_html=True)
-    st.markdown("""
-    Made by..
-    """,
-    unsafe_allow_html=True,
-    )
 
 st.markdown("""
-# SecondSelf
+# 2nd Self
 """)
 
 st.markdown("""
-### Ask the questions and start remembering your experiences
+### Elevate every decision with the power of undiluted memory. Your life, our lens, no moment missed.
 """)
 
-youtube_video = st.text_input("Youtube video: ", placeholder="https://youtu.be/...")
+youtube_video = st.text_input("Video of your memory: ", placeholder="https://youtu.be/...")
 
 if youtube_video:
     st.video(youtube_video)
