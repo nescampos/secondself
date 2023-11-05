@@ -52,10 +52,13 @@ def transcript_video(youtube_url):
     youtube_link = youtube_url
     video_id = pytube.extract.video_id(youtube_link)
     if os.path.exists(video_id+".csv"):
+        print("Generate existing transcription")
         with open('./'+video_id+'.txt', "r") as fp:
+            print("Open existing transcription")
             # Load the dictionary from the file
             existing_transcription = json.load(fp)
             return existing_transcription
+    print("Generate new transcription")
     youtube_video = YouTube(youtube_link)
     streams = youtube_video.streams.filter(only_audio=True)
     stream = streams.first()
